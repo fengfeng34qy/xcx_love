@@ -1,0 +1,109 @@
+<template>
+  <swiper class="swiper" style="height:{{style_height}}" vertical="true" autoplay="{{autoplay}}"
+   bindchange="onbindchange"
+   bindanimationfinish="onbindanimationfinish"
+   indicator-dots="{{indicatorDots}}" 
+   indicator-color="{{indicatorColor}}"
+   indicator-active-color="{{indicatorActiveColor}}">
+    <!-- <block wx:for="{{list}}" wx:key="index"> -->
+    <swiper-item>
+      <view style="height:{{style_height}}">
+        <view class="animated slideInDown">孙锋锋</view>
+        <view class="animated bounce infinite delay">
+          <image src="/images/item1-nv.jpg" class="" mode="aspectFit"/>
+        </view>
+        <view class="animated pulse infinite">
+          <image src="/images/item-xin.jpg" class="" mode="aspectFit"/>
+        </view>
+      </view>
+    </swiper-item>
+    <swiper-item>
+      <view style="height:{{style_height}}">
+        <view class="animated {{slide1}} delay">
+          <image src="/images/victory.jpg" class="" mode="aspectFit"/>
+        </view>
+        <view class="animated {{slide2}}">你是一个活泼可爱的女孩，很天真，很天真</view>
+      </view>
+    </swiper-item>
+    <!-- </block> -->
+  </swiper>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import base from '../mixins/base.js'
+
+  export default class SearchBar extends wepy.component {
+    mixins = [base]
+    props = {
+      list: {
+        type: Object,
+        default: []
+      },
+      height: {
+        type: [String, Number],
+        default: '240rpx'
+      },
+      dots: {
+        type: Boolean,
+        default: true
+      }
+    }
+
+    data = {
+      autoplay: false,
+      indicatorColor: 'rgba(255, 255, 255, 0.6)',
+      indicatorActiveColor: 'rgba(255, 255, 255, 1)',
+      slide1: "",
+      slide2: "",
+      isShow: 'none'
+    }
+
+    computed = {
+      indicatorDots() {
+        return false
+      },
+      style_height() {
+        // const h = this.height
+        return '100vh';
+        // return this.isNumber(+h) ? `${h}rpx` : this.isMatchHeight(h) ? h : '240rpx'
+      }
+    }
+
+    methods = {
+      onbindchange(event) {
+        console.log(event)
+      },
+      onbindanimationfinish(event) {
+        console.log(event)
+        if (event.detail.current === 1) {
+          this.slide1 = 'fadeInUpBig'
+          this.slide2 = 'rotateIn'
+        } else {
+          this.slide1 = ''
+          this.slide2 = ''
+        }
+      }
+    }
+
+    isMatchHeight(str) {
+      return this.isString(str) ? /\d+(r?px|em)$/.test(str) : false
+    }
+  }
+</script>
+
+<style type="less">
+.none {
+  display: none;
+}
+.show {
+  display: block;
+}
+swiper,
+.swiper{
+  width: 100%;
+}
+.delay {
+  animation-delay: 1s;
+}
+</style>
