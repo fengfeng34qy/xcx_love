@@ -1,31 +1,40 @@
 <template>
   <swiper class="swiper" style="height:{{style_height}}" vertical="true" autoplay="{{autoplay}}"
-   bindchange="onbindchange"
-   bindanimationfinish="onbindanimationfinish"
-   indicator-dots="{{indicatorDots}}" 
-   indicator-color="{{indicatorColor}}"
-   indicator-active-color="{{indicatorActiveColor}}">
-    <!-- <block wx:for="{{list}}" wx:key="index"> -->
+    bindchange="onbindchange"
+    bindanimationfinish="onbindanimationfinish"
+    indicator-dots="{{indicatorDots}}" 
+    indicator-color="{{indicatorColor}}"
+    indicator-active-color="{{indicatorActiveColor}}">
     <swiper-item>
-      <view style="height:{{style_height}}">
-        <view class="animated slideInDown">孙锋锋</view>
-        <view class="animated bounce infinite delay">
-          <image src="/images/item1-nv.jpg" class="" mode="aspectFit"/>
+      <view class="rel" style="height:{{style_height}}" wx:if="{{item1show}}">
+        <view class="animated slideInDown biaobai_txt abs" style="text-align:center;width:100%;top:90px;">献给我</view>
+        <view class="animated bounce infinite duration2 delay abs" style="width: 160px;height:160px;left:0;top:180px;">
+          <image src="/images/item1-nv.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
         </view>
-        <view class="animated pulse infinite">
-          <image src="/images/item-xin.jpg" class="" mode="aspectFit"/>
+        <view class="animated pulse infinite duration2 abs" style="width: 160px;height:160px;left:180px;top:230px;text-align:center;color:#fff;font-size:22px;font-weight:bold;">
+          <text class="abs" style="width:100%;top:50%;line-height:36px;margin-top:-18px;font-size:24px;font-weight:bold;">范冰冰</text>
+          <image src="/images/item-xin.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
         </view>
       </view>
     </swiper-item>
     <swiper-item>
-      <view style="height:{{style_height}}">
-        <view class="animated {{slide1}} delay">
+      <view style="height:{{style_height}}" wx:if="{{item2show}}">
+        <view class="animated {{item2_slide1}} delay">
           <image src="/images/victory.jpg" class="" mode="aspectFit"/>
         </view>
-        <view class="animated {{slide2}}">你是一个活泼可爱的女孩，很天真，很天真</view>
+        <view class="animated {{item2_slide2}} biaobai_txt">你是一个活泼可爱的女孩，很天真，很天真。</view>
       </view>
     </swiper-item>
-    <!-- </block> -->
+    <swiper-item>
+      <view class="animated slideInDown biaobai_txt abs" style="">虽然我们接触的时间不长,只有短短的几个月,却让我感觉是那么的熟悉与开心</view>
+        <view class="animated bounce" style="width: 160px;height:160px;">
+          <image src="/images/item-nanhai.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
+        </view>
+        <view class="animated pulse infinite duration2 abs" style="width: 160px;height:160px;left:180px;top:230px;">
+          <image src="/images/item-nvhai.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
+        </view>
+      </view>
+    </swiper-item>
   </swiper>
 </template>
 
@@ -54,9 +63,10 @@
       autoplay: false,
       indicatorColor: 'rgba(255, 255, 255, 0.6)',
       indicatorActiveColor: 'rgba(255, 255, 255, 1)',
-      slide1: "",
-      slide2: "",
-      isShow: 'none'
+      item2_slide1: '',
+      item2_slide2: '',
+      item1show: true,
+      item2show: false
     }
 
     computed = {
@@ -76,12 +86,18 @@
       },
       onbindanimationfinish(event) {
         console.log(event)
+        this.item2_slide1 = ''
+        this.item2_slide2 = ''
+        this.item2show = false
+
+        if (event.detail.current === 0) {
+          // this.item2_slide1 = 'fadeInUpBig'
+        }
+
         if (event.detail.current === 1) {
-          this.slide1 = 'fadeInUpBig'
-          this.slide2 = 'rotateIn'
-        } else {
-          this.slide1 = ''
-          this.slide2 = ''
+          this.item2_slide1 = 'fadeInUpBig'
+          this.item2_slide2 = 'zoomInUp'
+          this.item2show = true
         }
       }
     }
@@ -105,5 +121,13 @@ swiper,
 }
 .delay {
   animation-delay: 1s;
+}
+.duration2 {
+  animation-duration: 2s;
+}
+.biaobai_txt {
+  color: rgb(255, 0, 128);
+  font-size: 26px;
+  font-weight: bold;
 }
 </style>

@@ -42,7 +42,8 @@
 </script>
 
 <style lang="less">
-.page-index{
-  // some style
+.page-index {
+  background: url('http://love.sunfengfeng.com/css/img/bg.jpg') no-repeat;
+  background-size: 100% 100%;
 }
 </style>
