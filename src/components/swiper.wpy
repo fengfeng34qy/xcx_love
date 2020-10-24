@@ -5,9 +5,14 @@
     indicator-dots="{{indicatorDots}}" 
     indicator-color="{{indicatorColor}}"
     indicator-active-color="{{indicatorActiveColor}}">
+    <!-- item1-1 -->
     <swiper-item>
       <view class="rel" style="height:{{style_height}}" wx:if="{{item1show}}">
-        <view class="animated slideInDown biaobai_txt abs" style="text-align:center;width:100%;top:90px;">献给我</view>
+        <view class=" biaobai_txt abs" style="text-align:center;width:100%;top:90px;">
+          <text class="animated {{item1_slide1}} bold4">献</text>
+          <text class="animated {{item1_slide1}} bold4">给</text>
+          <text class="animated {{item1_slide1}} bold4">我</text>
+        </view>
         <view class="animated bounce infinite duration2 delay abs" style="width: 160px;height:160px;left:0;top:180px;">
           <image src="/images/item1-nv.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
         </view>
@@ -17,20 +22,25 @@
         </view>
       </view>
     </swiper-item>
+
+    <!-- item1-2 -->
     <swiper-item>
       <view style="height:{{style_height}}" wx:if="{{item2show}}">
-        <view class="animated {{item2_slide1}} delay">
+        <view class="animated {{item2_slide1}} delay" style="text-align:center;margin:40px 0;">
           <image src="/images/victory.jpg" class="" mode="aspectFit"/>
         </view>
-        <view class="animated {{item2_slide2}} biaobai_txt">你是一个活泼可爱的女孩，很天真，很天真。</view>
+        <view class="animated {{item2_slide2}} biaobai_txt" style="padding:0 30px;">你是一个活泼可爱的女孩，很善良，很天真。</view>
       </view>
     </swiper-item>
+
+    <!-- item1-3 -->
     <swiper-item>
-      <view class="animated slideInDown biaobai_txt abs" style="">虽然我们接触的时间不长,只有短短的几个月,却让我感觉是那么的熟悉与开心</view>
-        <view class="animated bounce" style="width: 160px;height:160px;">
+      <view class="" wx:if="{{item3show}}" style="">
+        <view class="biaobai_txt animated bounceInDown ">虽然我们接触的时间不长,只有短短的几个月,却让我感觉是那么的熟悉与开心</view>
+        <view class="animated {{item3_slide1}} delay abs" style="width: 160px;height:160px;top:230px;left:46px;">
           <image src="/images/item-nanhai.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
         </view>
-        <view class="animated pulse infinite duration2 abs" style="width: 160px;height:160px;left:180px;top:230px;">
+        <view class="animated {{item3_slide2}} bounceInRight abs" style="width: 160px;height:160px;left:180px;top:230px;">
           <image src="/images/item-nvhai.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
         </view>
       </view>
@@ -63,10 +73,14 @@
       autoplay: false,
       indicatorColor: 'rgba(255, 255, 255, 0.6)',
       indicatorActiveColor: 'rgba(255, 255, 255, 1)',
+      item1_slide1: 'rubberBand',
       item2_slide1: '',
       item2_slide2: '',
+      item3_slide1: '',
+      item3_slide2: '',
       item1show: true,
-      item2show: false
+      item2show: false,
+      item3show: false,
     }
 
     computed = {
@@ -80,6 +94,10 @@
       }
     }
 
+    onLoad() {
+      
+    }
+
     methods = {
       onbindchange(event) {
         console.log(event)
@@ -88,16 +106,24 @@
         console.log(event)
         this.item2_slide1 = ''
         this.item2_slide2 = ''
+        this.item1show = false
         this.item2show = false
+        this.item3show = false
 
         if (event.detail.current === 0) {
-          // this.item2_slide1 = 'fadeInUpBig'
+          this.item1_slide1 = 'rubberBand'
+          this.item1show = true
         }
 
         if (event.detail.current === 1) {
           this.item2_slide1 = 'fadeInUpBig'
           this.item2_slide2 = 'zoomInUp'
           this.item2show = true
+        }
+        if (event.detail.current === 2) {
+          this.item3_slide1 = 'bounceInLeft';
+          this.item3_slide2 = 'bounceInRight';
+          this.item3show = true
         }
       }
     }
@@ -125,9 +151,12 @@ swiper,
 .duration2 {
   animation-duration: 2s;
 }
+.duration3 {
+  animation-duration: 3s;
+}
 .biaobai_txt {
   color: rgb(255, 0, 128);
   font-size: 26px;
-  font-weight: bold;
+  font-weight: 400;
 }
 </style>

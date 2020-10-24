@@ -1,13 +1,89 @@
 <template>
   <view class="page-index">
-    <Swiper :list.sync="swipers" height="280"></Swiper>
+    <swiper class="swiper" style="height:{{style_height}}" vertical="true" autoplay="{{autoplay}}"
+      bindchange="onbindchange"
+      bindanimationfinish="onbindanimationfinish"
+      indicator-dots="{{indicatorDots}}" 
+      indicator-color="{{indicatorColor}}"
+      indicator-active-color="{{indicatorActiveColor}}">
+      <!-- item1-1 -->
+      <swiper-item>
+        <view class="rel" style="height:{{style_height}}" wx:if="{{item0show}}">
+          <view class=" biaobai_txt abs" style="text-align:center;width:100%;top:90px;">
+            <text class="animated rubberBand bold4">献</text>
+            <text class="animated rubberBand bold4">给</text>
+            <text class="animated rubberBand bold4">我</text>
+          </view>
+          <view class="animated bounce infinite duration2 delay abs" style="width: 160px;height:160px;left:0;top:180px;">
+            <image src="/images/item1-nv.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
+          </view>
+          <view class="animated pulse infinite duration2 abs" style="width: 160px;height:160px;left:180px;top:230px;text-align:center;color:#fff;font-size:22px;font-weight:bold;">
+            <text class="abs" style="width:100%;top:50%;line-height:36px;margin-top:-18px;font-size:24px;font-weight:bold;">范冰冰</text>
+            <image src="/images/item-xin.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
+          </view>
+        </view>
+      </swiper-item>
+
+      <!-- item1-2 -->
+      <swiper-item>
+        <view style="height:{{style_height}}" wx:if="{{item1show}}">
+          <view class="animated fadeInUpBig delay" style="text-align:center;margin:40px 0;">
+            <image src="/images/victory.jpg" class="" mode="aspectFit"/>
+          </view>
+          <view class="animated zoomInUp biaobai_txt" style="padding:0 30px;">你是一个活泼可爱的女孩，很善良，很天真。</view>
+        </view>
+      </swiper-item>
+
+      <!-- item1-3 -->
+      <swiper-item>
+        <view style="height:{{style_height}}" wx:if="{{item2show}}">
+          <view class="biaobai_txt animated bounceInDown ">虽然我们接触的时间不长,只有短短的几个月,却让我感觉是那么的熟悉与开心</view>
+          <view class="animated bounceInLeft delay abs" style="width: 160px;height:160px;top:230px;left:46px;">
+            <image src="/images/item-nanhai.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
+          </view>
+          <view class="animated bounceInRight bounceInRight abs" style="width: 160px;height:160px;left:180px;top:230px;">
+            <image src="/images/item-nvhai.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
+          </view>
+        </view>
+      </swiper-item>
+
+      <!-- item1-4 -->
+      <swiper-item>
+        <view style="height:{{style_height}}" wx:if="{{item3show}}">
+          <view class="biaobai_txt animated bounceInDown ">难以忘记初次见你的感觉,我被一种神奇的东西吸引</view>
+          <view class="animated bounceIn delay abs" style="width: 160px;height:160px;top:230px;">
+            <image src="/images/item4.jpg" mode="aspectFit" style="width:100%;height:100%;" />
+          </view>
+        </view>
+      </swiper-item>
+
+      <!-- item1-5 -->
+      <swiper-item>
+        <view style="height:{{style_height}}" wx:if="{{item4show}}">
+          <view class="animated flipInX" style="text-align:center;">
+            <image src="/images/item5.jpg" mode="aspectFit" />
+          </view>
+          <view class="biaobai_txt animated zoomIn delay">那时我的心七上八下的,我想想这就是一见钟情</view>
+        </view>
+      </swiper-item>
+
+      <!-- item1-6 -->
+      <swiper-item>
+        <view style="height:{{style_height}}" wx:if="{{item5show}}">
+          <view class="animated flipInX" style="text-align:center;">
+            <image src="/images/item5.jpg" mode="aspectFit" />
+          </view>
+          <view class="biaobai_txt animated zoomIn delay">那时我的心七上八下的,我想想这就是一见钟情</view>
+        </view>
+      </swiper-item>
+    </swiper>
   </view>
+  
 </template>
 
 <script>
   import wepy from 'wepy'
   import base from '../mixins/base'
-  import Swiper from '../components/swiper'
 
   export default class pageIndex extends wepy.page {
     mixins = [base]
@@ -18,14 +94,27 @@
       enablePullDownRefresh: false
     }
     data = {
-      swipers: [
-        // 占位图，防止请求错误无图显示
-        {image: '/images/swiper.png', url: '/pages/main/search'},
-        {image: '/images/swiper.png', url: '/pages/main/search'}
-      ],
+      indicatorDots: false,
+      autoplay: false,
+      indicatorColor: 'rgba(255, 255, 255, 0.6)',
+      indicatorActiveColor: 'rgba(255, 255, 255, 1)',
+      item1_slide1: 'rubberBand',
+      item0show: true,
+      item1show: false,
+      item2show: false,
+      item3show: false,
+      item4show: false,
+      item5show: false,
+      item6show: false,
+      item7show: false,
+      item8show: false,
+      item9show: false
+    }
 
-      // loading: false,
-      list: []
+    computed = {
+      style_height() {
+        return '100vh';
+      }
     }
 
     onReady() {
@@ -33,10 +122,27 @@
     }
 
     methods = {
+      onbindchange(event) {
+        // console.log(event)
+      },
+      onbindanimationfinish(event) {
+        console.log(event)
+        this.item2_slide1 = ''
+        this.item2_slide2 = ''
+        this.item0show = false
+        this.item1show = false
+        this.item2show = false
+        this.item3show = false
+        this.item4show = false
+        this.item5show = false
+        this.item6show = false
+        let current = event.detail.current
+        this['item' + current + 'show'] = true  // 这句很关键
+      }
     }
 
     components = {
-      Swiper
+      
     }
   }
 </script>
@@ -45,5 +151,29 @@
 .page-index {
   background: url('http://love.sunfengfeng.com/css/img/bg.jpg') no-repeat;
   background-size: 100% 100%;
+}
+.none {
+  display: none;
+}
+.show {
+  display: block;
+}
+swiper,
+.swiper{
+  width: 100%;
+}
+.delay {
+  animation-delay: 1s;
+}
+.duration2 {
+  animation-duration: 2s;
+}
+.duration3 {
+  animation-duration: 3s;
+}
+.biaobai_txt {
+  color: rgb(255, 0, 128);
+  font-size: 26px;
+  font-weight: 400;
 }
 </style>
