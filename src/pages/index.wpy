@@ -126,9 +126,6 @@
         // console.log(event)
       },
       onbindanimationfinish(event) {
-        console.log(event)
-        this.item2_slide1 = ''
-        this.item2_slide2 = ''
         this.item0show = false
         this.item1show = false
         this.item2show = false
@@ -136,6 +133,9 @@
         this.item4show = false
         this.item5show = false
         this.item6show = false
+        this.item7show = false
+        this.item8show = false
+        this.item9show = false
         let current = event.detail.current
         this['item' + current + 'show'] = true  // 这句很关键
       }
