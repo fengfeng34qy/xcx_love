@@ -1,0 +1,31 @@
+<template>
+  <view class="swiper-item9">
+    <view class="animated flipInX" style="text-align:center;">
+      <image src="/images/item10.jpg" mode="aspectFit" />
+    </view>
+    <view class="biaobai_txt animated zoomIn delay">做我的女朋友吧</view>
+    <view class="biaobai_txt animated zoomIn delay">--你的小猪猪</view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import base from '../mixins/base.js'
+
+  export default class swiperItem9 extends wepy.component {
+    mixins = [base]
+    props = {
+    }
+
+    data = {
+    }
+
+    onLoad() {
+    }
+
+    computed = {
+    }
+
+    methods = {
+    }
+  }
+</script>
