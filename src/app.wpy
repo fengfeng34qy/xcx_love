@@ -6,10 +6,11 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index'
+      'pages/index',
+      'pages/Home',
     ],
     window: {
-      navigationBarTitleText: 'BookMall',
+      navigationBarTitleText: '世纪有缘',
       navigationBarTextStyle: 'white',
       navigationBarBackgroundColor: '#049BFF',
       backgroundColor: '#eaeaea',
