@@ -7,61 +7,61 @@
       indicator-color="{{indicatorColor}}"
       indicator-active-color="{{indicatorActiveColor}}">
       <swiper-item>
-        <view class="rel" style="height:{{style_height}}" wx:if="{{item0show}}">
+        <view class="rel" style="height:{{style_height}}" wx:if="{{animated.item0show}}">
           <SwiperItem0/>
         </view>
       </swiper-item>
 
       <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{item1show}}">
+        <view style="height:{{style_height}}" wx:if="{{animated.item1show}}">
           <SwiperItem1/>
         </view>
       </swiper-item>
 
       <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{item2show}}">
+        <view style="height:{{style_height}}" wx:if="{{animated.item2show}}">
           <SwiperItem2/>
         </view>
       </swiper-item>
 
       <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{item3show}}">
+        <view style="height:{{style_height}}" wx:if="{{animated.item3show}}">
           <SwiperItem3/>
         </view>
       </swiper-item>
 
       <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{item4show}}">
+        <view style="height:{{style_height}}" wx:if="{{animated.item4show}}">
           <SwiperItem4/>
         </view>
       </swiper-item>
 
       <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{item5show}}">
+        <view style="height:{{style_height}}" wx:if="{{animated.item5show}}">
           <SwiperItem5/>
         </view>
       </swiper-item>
 
       <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{item6show}}">
+        <view style="height:{{style_height}}" wx:if="{{animated.item6show}}">
           <SwiperItem6/>
         </view>
       </swiper-item>
 
       <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{item7show}}">
+        <view style="height:{{style_height}}" wx:if="{{animated.item7show}}">
           <SwiperItem7/>
         </view>
       </swiper-item>
 
       <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{item8show}}">
+        <view style="height:{{style_height}}" wx:if="{{animated.item8show}}">
           <SwiperItem8/>
         </view>
       </swiper-item>
 
       <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{item9show}}">
+        <view style="height:{{style_height}}" wx:if="{{animated.item9show}}">
           <SwiperItem9/>
         </view>
       </swiper-item>
@@ -97,16 +97,18 @@
       autoplay: false,
       indicatorColor: 'rgba(255, 255, 255, 0.6)',
       indicatorActiveColor: 'rgba(255, 255, 255, 1)',
-      item0show: false,
-      item1show: false,
-      item2show: false,
-      item3show: false,
-      item4show: false,
-      item5show: false,
-      item6show: false,
-      item7show: false,
-      item8show: false,
-      item9show: false
+      animated: {
+        item0show: false,
+        item1show: false,
+        item2show: false,
+        item3show: false,
+        item4show: false,
+        item5show: false,
+        item6show: false,
+        item7show: false,
+        item8show: false,
+        item9show: false
+      }
     }
 
     computed = {
@@ -120,8 +122,7 @@
     }
 
     onLoad() {
-      this.item0show = true
-      console.log(this.swiperList)
+      this.animated.item0show = true
     }
 
     methods = {
@@ -129,18 +130,11 @@
         // console.log(event)
       },
       onbindanimationfinish(event) {
-        this.item0show = false
-        this.item1show = false
-        this.item2show = false
-        this.item3show = false
-        this.item4show = false
-        this.item5show = false
-        this.item6show = false
-        this.item7show = false
-        this.item8show = false
-        this.item9show = false
+        for (let item in this.animated) {
+          this.animated[item] = false
+        }
         let current = event.detail.current
-        this['item' + current + 'show'] = true  // 这句很关键
+        this.animated['item' + current + 'show'] = true  // 这句很关键
       }
     }
 
