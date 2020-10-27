@@ -2,7 +2,7 @@
   <view class="page-index flex">
     <view class="box">
       <view class="input-box">
-        <input class="input" @input="onInput" value="{{value}}" placeholder="请输入序列号" />
+        <input class="input" type="number" @input="onInput" value="{{value}}" placeholder="请输入序列号" />
       </view>
       <view class="button-box">
         <button type="primary" @tap="onSend">确定</button>
@@ -72,7 +72,7 @@
   align-items: center;
 }
 .input {
-  height: 4rem;
+  height: 45px;
   font-size: 22px;
   font-weight: 400;
   background: #fff;
