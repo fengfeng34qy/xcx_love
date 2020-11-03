@@ -9,7 +9,7 @@
       <image src="/images/item1-nv.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
     </view>
     <view class="animated pulse infinite duration2 abs" style="width: 160px;height:160px;left:180px;top:230px;text-align:center;color:#fff;font-size:22px;font-weight:bold;">
-      <text class="abs" style="width:100%;top:50%;line-height:36px;margin-top:-18px;font-size:24px;font-weight:bold;">范冰冰</text>
+      <text class="abs" style="width:100%;top:50%;line-height:36px;margin-top:-18px;font-size:24px;font-weight:bold;">{{hersname}}</text>
       <image src="/images/item-xin.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
     </view>
   </view>
@@ -21,6 +21,10 @@
   export default class swiperItem0 extends wepy.component {
     mixins = [base]
     props = {
+      hersname: {
+        type: String,
+        default: null
+      },
     }
 
     data = {

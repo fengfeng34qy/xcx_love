@@ -8,7 +8,7 @@
       indicator-active-color="{{indicatorActiveColor}}">
       <swiper-item>
         <view class="rel" style="height:{{style_height}}" wx:if="{{animated.item0show}}">
-          <SwiperItem0/>
+          <SwiperItem0 :hersname.sync="hersname"/>
         </view>
       </swiper-item>
 
@@ -89,10 +89,11 @@
     config = {
       navigationBarTitleText: '首页',
       navigationBarTextStyle: 'white',
-      navigationBarBackgroundColor: '#049BFF',
+      navigationBarBackgroundColor: '#A48276',
       enablePullDownRefresh: false
     }
     data = {
+      hersname: '',
       indicatorDots: false,
       autoplay: false,
       indicatorColor: 'rgba(255, 255, 255, 0.6)',
@@ -121,7 +122,11 @@
       // this.initPageData()
     }
 
-    onLoad() {
+    onLoad(options) {
+      console.log(options.result)
+      let data = JSON.parse(options.result)
+      console.log(data)
+      this.hersname = data.data[0].hersname
       this.animated.item0show = true
     }
 

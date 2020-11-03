@@ -2,12 +2,13 @@
   <view class="page-index flex">
     <view class="box">
       <view class="input-box">
-        <input class="input" type="number" @input="onInput" value="{{value}}" placeholder="请输入序列号" />
+        <input class="input" type="number" @input="onInput" value="{{value}}" maxlength="4" placeholder="请输入序列号" />
       </view>
       <view class="button-box">
-        <button type="primary" @tap="onSend">确定</button>
+        <button type="primary" disabled="{{!isEnabled}}" @tap="onSend">确定</button>
       </view>
     </view>
+    <message></message>
   </view>
 </template>
 
@@ -15,20 +16,29 @@
   import wepy from 'wepy'
   import base from '../mixins/base'
   import http from '../mixins/http'
+  import message from 'wepy-message';
 
   export default class pageIndex extends wepy.page {
     mixins = [base, http]
     config = {
       navigationBarTitleText: '首页',
       navigationBarTextStyle: 'white',
-      navigationBarBackgroundColor: '#049BFF',
+      navigationBarBackgroundColor: '#A48276',
       enablePullDownRefresh: false
     }
     data = {
       value: ''
     }
 
-    computed = {}
+    computed = {
+      isEnabled() {
+        return Boolean(this.value.trim())
+      }
+    }
+
+    components = {
+      message
+    }
 
     onReady() {}
 
@@ -41,21 +51,25 @@
       },
       onSend() {
         this.$post({
-          url: 'http://www.sunfengfeng.com/post',
-          data: {}
+          url: 'https://www.sunfengfeng.com/biaobaiDetail',
+          data: {
+            biaobai: {
+              seqNo: this.value
+            }
+          }
         }, {
           success: ({code, data})=> {
+            this.$invoke('message', 'warning', 'haha1', 3000);
+            let result = JSON.stringify({data: data})
             wepy.navigateTo({
-              url: '/pages/Home'
+              url: `/pages/Home?result=${result}`
             })
           },
           fail: ({code, data})=> {
-            // wepy.navigateTo({
-            //   url: '/pages/Home'
-            // })
+            console.log(code, data)
+            this.$invoke('message', 'warning', data.message, 3000);
           }
         })
-        
       }
     }
   }
