@@ -28,3 +28,8 @@
     }
   }
 </script>
+<style lang="less" scoped>
+.biaobai_txt {
+  padding: 0 40rpx;
+}
+</style>

@@ -4,7 +4,11 @@
       <image src="/images/item10.jpg" mode="aspectFit" />
     </view>
     <view class="biaobai_txt animated zoomIn delay">做我的女朋友吧</view>
-    <view class="biaobai_txt animated zoomIn delay">--你的小猪猪</view>
+    <view class="biaobai_txt animated zoomIn delay">--{{yourname}}</view>
+    <view style="display:flex;margin-top:40rpx;">
+        <button class="agree" type="default" disabled="{{isEnabled}}" @tap="onAgree">好的</button>
+        <button class="refuse" type="default" disabled="{{isEnabled}}" @tap="onRefuse">拒绝</button>
+    </view>
   </view>
 </template>
 <script>
@@ -14,18 +18,47 @@
   export default class swiperItem9 extends wepy.component {
     mixins = [base]
     props = {
+      yourname: {
+        type: String,
+        default: null
+      }
     }
 
     data = {
+      isAgree: false
     }
 
     onLoad() {
     }
 
     computed = {
+      isEnabled() {
+        return this.isAgree
+      }
     }
 
     methods = {
+      onAgree() {
+        console.log('好的')
+        // this.isAgree = true
+      },
+      onRefuse() {
+        console.log('拒绝')
+        // this.isAgree = true
+      }
     }
   }
 </script>
+<style lang="less" scoped>
+.swiper-item9 {
+  padding: 0 40rpx;
+}
+.agree {
+  background: green;
+  color: #fff;
+}
+.refuse {
+  background: red;
+  color: #fff;
+}
+</style>

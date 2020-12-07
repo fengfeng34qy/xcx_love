@@ -8,7 +8,7 @@
       indicator-active-color="{{indicatorActiveColor}}">
       <swiper-item>
         <view class="rel" style="height:{{style_height}}" wx:if="{{animated.item0show}}">
-          <SwiperItem0 :hersname.sync="hersname"/>
+          <SwiperItem0 :hersname.sync="hersname" />
         </view>
       </swiper-item>
 
@@ -62,7 +62,7 @@
 
       <swiper-item>
         <view style="height:{{style_height}}" wx:if="{{animated.item9show}}">
-          <SwiperItem9/>
+          <SwiperItem9 :yourname.sync="yourname" />
         </view>
       </swiper-item>
     </swiper>
@@ -94,6 +94,7 @@
     }
     data = {
       hersname: '',
+      yourname: '',
       indicatorDots: false,
       autoplay: false,
       indicatorColor: 'rgba(255, 255, 255, 0.6)',
@@ -127,6 +128,7 @@
       let data = JSON.parse(options.result)
       console.log(data)
       this.hersname = data.data[0].hersname
+      this.yourname = data.data[0].yourname
       this.animated.item0show = true
     }
 

@@ -31,3 +31,8 @@
     }
   }
 </script>
+<style type="less">
+.swiper-item2 {
+  padding: 0 40rpx;
+}
+</style>

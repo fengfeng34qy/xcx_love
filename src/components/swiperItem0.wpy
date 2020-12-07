@@ -24,7 +24,7 @@
       hersname: {
         type: String,
         default: null
-      },
+      }
     }
 
     data = {

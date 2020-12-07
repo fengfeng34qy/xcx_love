@@ -1,9 +1,11 @@
 <template>
   <view class="swiper-item3">
     <view class="biaobai_txt animated bounceInDown ">难以忘记初次见你的感觉,我被一种神奇的东西吸引</view>
+    <view style="width:100%;display:flex;justify-content:center;">
       <view class="animated bounceIn delay abs" style="width: 160px;height:160px;top:230px;">
         <image src="/images/item4.jpg" mode="aspectFit" style="width:100%;height:100%;" />
       </view>
+    </view>
   </view>
 </template>
 <script>
@@ -28,3 +30,11 @@
     }
   }
 </script>
+<style lang="less" scoped>
+.swiper-item3 {
+  padding: 0 40rpx;
+}
+.biaobai_txt {
+  margin-top: 200rpx;
+}
+</style>

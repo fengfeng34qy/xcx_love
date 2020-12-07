@@ -30,3 +30,8 @@
     }
   }
 </script>
+<style lang="less" scoped>
+.swiper-item6 {
+  padding: 0 40rpx;
+}
+</style>
