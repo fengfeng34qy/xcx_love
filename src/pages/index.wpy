@@ -2,7 +2,7 @@
   <view class="page-index flex">
     <view class="box">
       <view class="input-box">
-        <input class="input" type="number" @input="onInput" value="{{value}}" maxlength="4" placeholder="请输入序列号" />
+        <input class="input" type="number" @input="onInput" value="{{value}}" maxlength="4" placeholder="请输入编号" />
       </view>
       <view class="button-box">
         <button type="primary" disabled="{{!isEnabled}}" @tap="onSend">确定</button>

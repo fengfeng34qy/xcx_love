@@ -1,5 +1,8 @@
 <template>
   <view class="page-index">
+    <view class="playBtn" @tap="playFn" style="background:url({{spriteUrl}});background-size:30px 250px;background-position:8px -22px">
+      <view style="height:100%;background:url({{spriteUrl}});background-size:30px 250px;background-position:8px {{pos}}"></view>
+    </view>
     <swiper class="swiper" style="height:{{style_height}}" vertical="true" autoplay="{{autoplay}}"
       bindchange="onbindchange"
       bindanimationfinish="onbindanimationfinish"
@@ -93,6 +96,8 @@
       enablePullDownRefresh: false
     }
     data = {
+      pos: '-22px',
+      spriteUrl: 'https://www.sunfengfeng.com/love/css/img/sprite.png',
       hersname: '',
       yourname: '',
       indicatorDots: false,
@@ -130,9 +135,21 @@
       this.hersname = data.data[0].hersname
       this.yourname = data.data[0].yourname
       this.animated.item0show = true
+      this.audioCtx = wx.createInnerAudioContext({});
+      this.audioCtx.src = 'http://www.sunfengfeng.com/mp3/aidejiushini.mp3'
+      this.audioCtx.play();
     }
 
     methods = {
+      playFn() {
+        if (this.pos === '-53px') {
+          this.pos = '-22px'
+          this.audioCtx.play();
+        } else {
+          this.pos = '-53px'
+          this.audioCtx.stop();
+        }
+      },
       onbindchange(event) {
         // console.log(event)
       },
@@ -188,5 +205,15 @@ swiper,
   color: rgb(255, 0, 128);
   font-size: 26px;
   font-weight: 400;
+}
+.playBtn {
+  position: absolute;
+  top: 40rpx;
+  right: 40rpx;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  z-index: 9999;
 }
 </style>
