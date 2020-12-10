@@ -47,7 +47,6 @@
     methods = {
       onInput(e) {
         this.value = e.detail.value
-        console.log(this.value)
       },
       onSend() {
         this.$post({
@@ -64,9 +63,13 @@
               url: `/pages/Home?result=${result}`
             })
           },
-          fail: ({code, data})=> {
-            console.log(code, data)
-            this.$invoke('message', 'warning', data.message, 3000);
+          fail: ({statusCode, data})=> {
+            console.log(statusCode, data)
+            if (data) {
+              this.$invoke('message', 'warning', data.message, 3000);
+            } else {
+              this.$invoke('message', 'warning', '网络异常！', 3000);
+            }
           }
         })
       }

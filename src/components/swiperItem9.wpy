@@ -5,9 +5,9 @@
     </view>
     <view class="biaobai_txt animated zoomIn delay">做我的女朋友吧</view>
     <view class="biaobai_txt animated zoomIn delay">--{{yourname}}</view>
-    <view style="display:flex;margin-top:40rpx;">
+    <view style="display:flex;margin-top:120rpx;">
         <button class="agree" type="default" disabled="{{isEnabled}}" @tap="onAgree">好的</button>
-        <button class="refuse" type="default" disabled="{{isEnabled}}" @tap="onRefuse">拒绝</button>
+        <button class="refuse" type="default" disabled="{{isEnabled}}" @tap="onRefuse">再想想</button>
     </view>
   </view>
 </template>
@@ -54,10 +54,12 @@
   padding: 0 40rpx;
 }
 .agree {
+  width: 200rpx;
   background: green;
   color: #fff;
 }
 .refuse {
+  width: 200rpx;
   background: red;
   color: #fff;
 }

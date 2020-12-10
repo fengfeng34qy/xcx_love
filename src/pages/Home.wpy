@@ -69,6 +69,9 @@
         </view>
       </swiper-item>
     </swiper>
+    <view class="span-wrap">
+      <view class="span" class2="animated fadeInUp infinite duration1s"></view>
+    </view>
   </view>
   
 </template>
@@ -126,6 +129,10 @@
 
     onReady() {
       // this.initPageData()
+    }
+
+    onUnload() {
+      this.audioCtx.stop();
     }
 
     onLoad(options) {
@@ -195,6 +202,9 @@ swiper,
 .delay {
   animation-delay: 1s;
 }
+.duration1s {
+  animation-duration: 1s;
+}
 .duration2 {
   animation-duration: 2s;
 }
@@ -215,5 +225,30 @@ swiper,
   border-radius: 50%;
   border: 1px solid #fff;
   z-index: 9999;
+}
+.span-wrap {
+  width: 80rpx;
+  height: 80rpx;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  margin-left: -40rpx;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  overflow: hidden;
+}
+.span {
+  width: 60rpx;
+  height: 60rpx;
+  background: url(https://www.sunfengfeng.com/love/css/img/sprite.png) no-repeat;
+  background-size:30px 250px;
+  background-position:8px 0px;
+  margin: 16rpx 7rpx;
+  animation: slide_up 1.8s infinite ease-in-out;
+}
+@keyframes slide_up{
+  0%,30%{opacity:0;-webkit-transform:translate3d(0,10px,0)}
+  60%{opacity:1;-webkit-transform:translate3d(0,0,0)}
+  100%{opacity:0;-webkit-transform:translate3d(0,-8px,0)}
 }
 </style>
