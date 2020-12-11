@@ -5,7 +5,7 @@
     </view>
     <view class="biaobai_txt animated zoomIn delay">做我的女朋友吧</view>
     <view class="biaobai_txt animated zoomIn delay">--{{yourname}}</view>
-    <view style="display:flex;margin-top:120rpx;">
+    <view class="animated bounceInUp delay2s" style="display:flex;margin-top:120rpx;">
         <button class="agree" type="default" disabled="{{isEnabled}}" @tap="onAgree">好的</button>
         <button class="refuse" type="default" disabled="{{isEnabled}}" @tap="onRefuse">再想想</button>
     </view>
@@ -50,6 +50,9 @@
   }
 </script>
 <style lang="less" scoped>
+.delay2s {
+  animation-delay: 2s;
+}
 .swiper-item9 {
   padding: 0 40rpx;
 }
