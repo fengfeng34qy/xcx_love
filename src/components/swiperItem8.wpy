@@ -4,7 +4,7 @@
       <image src="/images/item10.jpg" mode="aspectFit" />
     </view>
     <view class="biaobai_txt animated zoomIn delay">做我的女朋友吧</view>
-    <view class="biaobai_txt animated zoomIn delay">--{{yourname}}</view>
+    <view class="biaobai_txt animated zoomIn delay"> -- {{yourname}}</view>
     <view class="animated bounceInUp delay2s" style="display:flex;margin-top:120rpx;">
         <button class="agree" type="default" disabled="{{isEnabled}}" @tap="onAgree">好的</button>
         <button class="refuse" type="default" disabled="{{isEnabled}}" @tap="onRefuse">再想想</button>
@@ -54,7 +54,7 @@
   animation-delay: 2s;
 }
 .swiper-item9 {
-  padding: 0 40rpx;
+  padding: 80rpx 40rpx 0;
 }
 .agree {
   width: 200rpx;

@@ -215,6 +215,7 @@ swiper,
   color: rgb(255, 0, 128);
   font-size: 24px;
   font-weight: 400;
+  text-align: center;
 }
 .playBtn {
   position: absolute;
