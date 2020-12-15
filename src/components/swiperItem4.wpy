@@ -29,6 +29,9 @@
   }
 </script>
 <style lang="less" scoped>
+.swiper-item4 {
+  padding: 120rpx 0 0 0;
+}
 .biaobai_txt {
   padding: 0 40rpx;
 }
