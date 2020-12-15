@@ -213,7 +213,7 @@ swiper,
 }
 .biaobai_txt {
   color: rgb(255, 0, 128);
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 400;
 }
 .playBtn {

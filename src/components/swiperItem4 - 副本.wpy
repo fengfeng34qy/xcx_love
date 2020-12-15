@@ -1,0 +1,35 @@
+<template>
+  <view class="swiper-item4">
+    <view class="animated flipInX" style="text-align:center;">
+      <image src="/images/item5.jpg" mode="aspectFit" />
+    </view>
+    <view class="biaobai_txt animated zoomIn delay">那时我的心七上八下的,我想想这就是一见钟情</view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import base from '../mixins/base.js'
+
+  export default class swiperItem4 extends wepy.component {
+    mixins = [base]
+    props = {
+    }
+
+    data = {
+    }
+
+    onLoad() {
+    }
+
+    computed = {
+    }
+
+    methods = {
+    }
+  }
+</script>
+<style lang="less" scoped>
+.biaobai_txt {
+  padding: 0 40rpx;
+}
+</style>

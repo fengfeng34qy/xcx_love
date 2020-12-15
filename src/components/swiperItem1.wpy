@@ -3,7 +3,7 @@
     <view class="animated fadeInUpBig delay" style="text-align:center;margin:40px 0;">
       <image src="/images/victory.jpg" class="" mode="aspectFit"/>
     </view>
-    <view class="animated zoomInUp biaobai_txt" style="padding:0 30px;">你是一个特别好(pang)的女孩.</view>
+    <view class="animated zoomInUp biaobai_txt" style="padding:0 30px;">你是一个特别好(pàng)的女孩.</view>
   </view>
 </template>
 <script>
