@@ -1,18 +1,16 @@
 <template>
-  <view class="swiper-item7">
-    <view class="biaobai_txt animated zoomIn delay">只要你愿意</view>
+  <view class="swiper-item8">
+    <view class="biaobai_txt animated zoomIn delay">总之，只要你愿意我会一直陪着你</view>
     <view class="animated flipInX" style="text-align:center;">
-      <image src="/images/item8.jpg" mode="aspectFit" />
+      <image src="/images/item9.jpg" mode="aspectFit" />
     </view>
-    <view class="biaobai_txt animated zoomIn delay">我可以陪你去</view>
-    <view class="biaobai_txt animated zoomIn delay">任何你想去的地方</view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
   import base from '../mixins/base.js'
 
-  export default class swiperItem7 extends wepy.component {
+  export default class swiperItem8 extends wepy.component {
     mixins = [base]
     props = {
     }
@@ -31,7 +29,7 @@
   }
 </script>
 <style lang="less" scoped>
-.swiper-item7 {
+.swiper-item8 {
   padding: 0 40rpx;
 }
 </style>

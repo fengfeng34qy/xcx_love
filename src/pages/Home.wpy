@@ -59,15 +59,15 @@
 
       <swiper-item>
         <view style="height:{{style_height}}" wx:if="{{animated.item8show}}">
-          <SwiperItem8/>
+          <SwiperItem8 :yourname.sync="yourname" />
         </view>
       </swiper-item>
 
-      <swiper-item>
+      <!-- <swiper-item>
         <view style="height:{{style_height}}" wx:if="{{animated.item9show}}">
           <SwiperItem9 :yourname.sync="yourname" />
         </view>
-      </swiper-item>
+      </swiper-item> -->
     </swiper>
     <view class="span-wrap">
       <view class="span" class2="animated fadeInUp infinite duration1s"></view>
@@ -88,7 +88,7 @@
   import SwiperItem6 from '../components/swiperItem6'
   import SwiperItem7 from '../components/swiperItem7'
   import SwiperItem8 from '../components/swiperItem8'
-  import SwiperItem9 from '../components/swiperItem9'
+  // import SwiperItem9 from '../components/swiperItem9'
 
   export default class pageIndex extends wepy.page {
     mixins = [base]
@@ -117,7 +117,7 @@
         item6show: false,
         item7show: false,
         item8show: false,
-        item9show: false
+        // item9show: false
       }
     }
 
@@ -179,7 +179,7 @@
       SwiperItem6,
       SwiperItem7,
       SwiperItem8,
-      SwiperItem9
+      // SwiperItem9
     }
   }
 </script>
