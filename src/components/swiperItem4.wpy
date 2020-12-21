@@ -3,7 +3,7 @@
     <view class="animated flipInX" style="text-align:center;">
       <image src="/images/item5.jpg" mode="aspectFit" />
     </view>
-    <view class="biaobai_txt animated zoomIn delay">那时我的心七上八下的,我想想这就是一见钟情</view>
+    <view class="biaobai_txt animated zoomIn delay">每次见到你我的心七上八下的,我想这就是一见钟情</view>
   </view>
 </template>
 <script>

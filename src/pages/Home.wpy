@@ -135,6 +135,11 @@
       this.audioCtx.stop();
     }
 
+    onHide() {
+      this.pos = '-53px'
+      this.audioCtx.stop()
+    }
+
     onLoad(options) {
       console.log(options.result)
       let data = JSON.parse(options.result)
@@ -161,9 +166,13 @@
         console.log(event)
       },
       onbindanimationfinish(event) {
+        
+        // 隐藏所有swiperItem
         for (let item in this.animated) {
           this.animated[item] = false
         }
+
+        // 只展示当前swiperItem
         let current = event.detail.current
         this.animated['item' + current + 'show'] = true  // 这句很关键
       }
