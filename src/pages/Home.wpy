@@ -9,65 +9,29 @@
       indicator-dots="{{indicatorDots}}" 
       indicator-color="{{indicatorColor}}"
       indicator-active-color="{{indicatorActiveColor}}">
+      <!-- 表白头部 -->
       <swiper-item>
         <view class="rel" style="height:{{style_height}}" wx:if="{{animated.item0show}}">
-          <SwiperItem0 :hersname.sync="hersname" />
+          <SwiperItem0 :hersname.sync="hersname" :biaobaiHeader.sync="biaobaiHeader" />
         </view>
       </swiper-item>
-
+      <!-- 表白内容 -->
+      <swiper-item wx:for="{{biaobaiList}}" wx:key="*this" wx:if="{{item.checked}}">
+        <view style="height:{{style_height}}" wx:if="{{animated['item'+(index+1)+'show']}}" >
+          <view>
+            <view class="animated {{item.animated1}} delay" style="text-align:center;margin:40px 0;">
+              <image src="{{item.url}}" class="" mode="aspectFit"/>
+            </view>
+            <view class="animated biaobai_txt {{item.animated2}}" style="padding:0 30px;">{{item.value}}</view>
+          </view>
+        </view>
+      </swiper-item>
+      <!-- 表白底部 -->
       <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{animated.item1show}}">
-          <SwiperItem1/>
+        <view style="height:{{style_height}}" wx:if="{{animated.lastshow}}">
+          <SwiperItem8 :yourname.sync="yourname" :biaobaiFooter.sync="biaobaiFooter" />
         </view>
       </swiper-item>
-
-      <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{animated.item2show}}">
-          <SwiperItem2/>
-        </view>
-      </swiper-item>
-
-      <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{animated.item3show}}">
-          <SwiperItem3/>
-        </view>
-      </swiper-item>
-
-      <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{animated.item4show}}">
-          <SwiperItem4/>
-        </view>
-      </swiper-item>
-
-      <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{animated.item5show}}">
-          <SwiperItem5/>
-        </view>
-      </swiper-item>
-
-      <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{animated.item6show}}">
-          <SwiperItem6/>
-        </view>
-      </swiper-item>
-
-      <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{animated.item7show}}">
-          <SwiperItem7/>
-        </view>
-      </swiper-item>
-
-      <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{animated.item8show}}">
-          <SwiperItem8 :yourname.sync="yourname" />
-        </view>
-      </swiper-item>
-
-      <!-- <swiper-item>
-        <view style="height:{{style_height}}" wx:if="{{animated.item9show}}">
-          <SwiperItem9 :yourname.sync="yourname" />
-        </view>
-      </swiper-item> -->
     </swiper>
     <view class="span-wrap">
       <view class="span" class2="animated fadeInUp infinite duration1s"></view>
@@ -79,6 +43,7 @@
 <script>
   import wepy from 'wepy'
   import base from '../mixins/base'
+  import SwiperItem from '../components/swiperItem'
   import SwiperItem0 from '../components/swiperItem0'
   import SwiperItem1 from '../components/swiperItem1'
   import SwiperItem2 from '../components/swiperItem2'
@@ -99,6 +64,9 @@
       enablePullDownRefresh: false
     }
     data = {
+      biaobaiHeader: '',
+      biaobaiFooter: '',
+      biaobaiList: [],
       pos: '-22px',
       spriteUrl: 'https://www.sunfengfeng.com/love/css/img/sprite.png',
       hersname: '',
@@ -108,16 +76,7 @@
       indicatorColor: 'rgba(255, 255, 255, 0.6)',
       indicatorActiveColor: 'rgba(255, 255, 255, 1)',
       animated: {
-        item0show: false,
-        item1show: false,
-        item2show: false,
-        item3show: false,
-        item4show: false,
-        item5show: false,
-        item6show: false,
-        item7show: false,
-        item8show: false,
-        // item9show: false
+        item0show: false
       }
     }
 
@@ -132,7 +91,7 @@
     }
 
     onUnload() {
-      this.audioCtx.stop();
+      this.audioCtx.stop()
     }
 
     onHide() {
@@ -141,44 +100,61 @@
     }
 
     onLoad(options) {
-      console.log(options.result)
       let data = JSON.parse(options.result)
-      console.log(data)
+      this.biaobaiHeader = data.data[0].biaobaiHeader
+      this.biaobaiFooter = data.data[0].biaobaiFooter
+      this.biaobaiList = data.data[0].biaobaiContent
+      console.log(this.biaobaiList)
+      this.biaobaiList = this.biaobaiList.filter((item) => {
+        return item.checked === true
+      })
+      for (var i = 0; i < this.biaobaiList.length; i++) {
+        if (this.biaobaiList[i].checked === true) {
+          this.animated['item' + (i + 1) + 'show'] = false
+        }
+      }
+      this.animated.lastshow = this.animated['item' + (i - 1) + 'show']
+      console.log(this.animated)
       this.hersname = data.data[0].hersname
       this.yourname = data.data[0].yourname
       this.animated.item0show = true
-      this.audioCtx = wx.createInnerAudioContext({});
+      this.audioCtx = wx.createInnerAudioContext({})
       this.audioCtx.src = 'http://www.sunfengfeng.com/mp3/aidejiushini.mp3'
-      this.audioCtx.play();
+      this.audioCtx.play()
     }
 
     methods = {
       playFn() {
         if (this.pos === '-53px') {
           this.pos = '-22px'
-          this.audioCtx.play();
+          this.audioCtx.play()
         } else {
           this.pos = '-53px'
-          this.audioCtx.stop();
+          this.audioCtx.stop()
         }
       },
       onbindchange(event) {
         console.log(event)
       },
       onbindanimationfinish(event) {
-        
         // 隐藏所有swiperItem
         for (let item in this.animated) {
+          this.animated.lastshow = false
           this.animated[item] = false
         }
 
         // 只展示当前swiperItem
         let current = event.detail.current
+        if (current === (this.biaobaiList.length + 1)) {
+          // 如果是swiper的最后一个，就显示
+          this.animated.lastshow = true
+        }
         this.animated['item' + current + 'show'] = true  // 这句很关键
       }
     }
 
     components = {
+      SwiperItem,
       SwiperItem0,
       SwiperItem1,
       SwiperItem2,
@@ -187,8 +163,7 @@
       SwiperItem5,
       SwiperItem6,
       SwiperItem7,
-      SwiperItem8,
-      // SwiperItem9
+      SwiperItem8
     }
   }
 </script>

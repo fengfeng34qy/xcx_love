@@ -5,7 +5,7 @@
         <input class="input" type="number" @input="onInput" value="{{value}}" maxlength="4" placeholder="请输入编号" />
       </view>
       <view class="button-box">
-        <button type="primary" disabled="{{!isEnabled}}" @tap="onSend">确定</button>
+        <button type="primary" disabled="{{!isEnabled}}" @tap="fn">确定</button>
       </view>
     </view>
     <message></message>
@@ -16,6 +16,7 @@
   import wepy from 'wepy'
   import base from '../mixins/base'
   import http from '../mixins/http'
+  import Utils from '../common/utils'
   import message from 'wepy-message'
 
   export default class pageIndex extends wepy.page {
@@ -40,6 +41,8 @@
       message
     }
 
+    onShareAppMessage() {}
+
     onReady() {}
 
     onLoad() {}
@@ -48,7 +51,78 @@
       onInput(e) {
         this.value = e.detail.value
       },
-      onSend() {
+      fn() {
+        wepy.navigateTo({
+          url: `/pages/setLove/setLove`
+        })
+      },
+      onSend: Utils.debounce(() => {
+        wepy.navigateTo({
+          url: `/pages/setLove/setLove`
+        })
+        // wx.cloud.callFunction({
+        //   name: 'setLove',
+        //   data: {
+        //     hersname: 'sff',
+        //     yourname: 'sdd',
+        //     biaobaiHeader: '表白头部',
+        //     biaobaiFooter: '表白底部',
+        //     biaobaiContent: [
+        //       {
+        //         animated1: 'fadeInUpBig',
+        //         animated2: 'zoomInUp',
+        //         checked: true,
+        //         url: '/images/victory.jpg',
+        //         value: '你是一个特别好(pàng)的女生。',
+        //       }
+        //     ]
+        //   },
+        //   success(res) {
+        //     console.log(res)
+        //   },
+        //   fail(error) {
+        //     console.log(error)
+        //   },
+        //   complete() {}
+        // })
+      }, 3000, true),
+      // 发送通讯
+      onSendAsync() {
+        wepy.request({
+          method: 'POST',
+          url: 'https://www.sunfengfeng.com/biaobaiDetail',
+          data: {
+            biaobai: {
+              seqNo: this.value
+            }
+          },
+          success: (res) => {
+            let result = JSON.stringify({data: res.data.data})
+            console.log(res)
+            if (res.data.status !== 200) {
+              // 序列号不存在
+              this.$invoke('message', 'warning', res.data.data.message, 3000)
+              return
+            }
+            if (JSON.parse(result).data[0].biaobaiContent.length < 1) {
+              // 序列号失效
+              this.$invoke('message', 'warning', '编号失效！', 3000)
+              return
+            }
+            wepy.navigateTo({
+              url: `/pages/Home?result=${result}`
+            })
+          },
+          fail: (error) => {
+            this.$invoke('message', 'warning', JSON.stringify(error), 3000)
+            // if (typeof error === 'object') {
+            //   this.$invoke('message', 'warning', data.message, 3000)
+            // } else {
+            //   this.$invoke('message', 'warning', '网络异常！', 3000)
+            // }
+          }
+        })
+        return;
         this.$post({
           url: 'https://www.sunfengfeng.com/biaobaiDetail',
           data: {
@@ -57,18 +131,22 @@
             }
           }
         }, {
-          success: ({code, data})=> {
+          success: ({code, data}) => {
             let result = JSON.stringify({data: data})
+            if (JSON.parse(result).data[0].biaobaiContent.length < 1) {
+              this.$invoke('message', 'warning', '编号失效！', 3000)
+              return;
+            }
             wepy.navigateTo({
               url: `/pages/Home?result=${result}`
             })
           },
-          fail: ({statusCode, data})=> {
+          fail: ({statusCode, data}) => {
             console.log(statusCode, data)
             if (data) {
-              this.$invoke('message', 'warning', data.message, 3000);
+              this.$invoke('message', 'warning', data.message, 3000)
             } else {
-              this.$invoke('message', 'warning', '网络异常！', 3000);
+              this.$invoke('message', 'warning', '网络异常！', 3000)
             }
           }
         })

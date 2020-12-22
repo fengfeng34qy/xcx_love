@@ -1,9 +1,7 @@
 <template>
   <view class="swiper-item0">
     <view class=" biaobai_txt abs" style="text-align:center;width:100%;top:90px;">
-      <text class="animated rubberBand bold4">赠</text>
-      <text class="animated rubberBand bold4">送</text>
-      <text class="animated rubberBand bold4">给</text>
+      <text class="animated rubberBand bold4" wx:for="{{biaobaiHeader}}" wx:key="*this">{{item}}</text>
     </view>
     <view class="animated bounce infinite duration2 delay abs" style="width: 160px;height:160px;left:0;top:180px;">
       <image src="/images/item1-nv.jpg" class="" mode="aspectFit" style="width:100%;height:100%;" />
@@ -24,14 +22,17 @@
       hersname: {
         type: String,
         default: null
+      },
+      biaobaiHeader: {
+        type: String,
+        default: null
       }
     }
 
     data = {
     }
 
-    onLoad() {
-    }
+    onLoad() {}
 
     computed = {
     }

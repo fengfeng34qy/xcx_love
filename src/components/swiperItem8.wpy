@@ -3,7 +3,7 @@
     <view class="animated flipInX" style="text-align:center;">
       <image src="/images/item10.jpg" mode="aspectFit" />
     </view>
-    <view class="biaobai_txt animated zoomIn delay">做我的女朋友吧</view>
+    <view class="biaobai_txt animated zoomIn delay">{{biaobaiFooter}}</view>
     <view class="biaobai_txt animated zoomIn delay"> -- {{yourname}}</view>
     <view class="animated bounceInUp delay2s" style="display:flex;margin-top:120rpx;">
         <button class="agree" type="default" disabled="{{isEnabled}}" @tap="onAgree">好的</button>
@@ -32,6 +32,10 @@
     mixins = [base]
     props = {
       yourname: {
+        type: String,
+        default: null
+      },
+      biaobaiFooter: {
         type: String,
         default: null
       }

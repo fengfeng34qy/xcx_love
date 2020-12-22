@@ -1,0 +1,245 @@
+<template>
+  <view class="page-index">
+    <view class="biaobai_wrap">
+      <view class="biaobai_head">
+        <text class="biaobai_wrap_item_text">需要表白的人：</text>
+        <input class="biaobai_wrap_item_input" type="text" @input="onHersNameInput" value="{{hersname}}" maxlength="4" placeholder="请输入" />
+      </view>
+      <view class="biaobai_head">
+        <text class="biaobai_wrap_item_text">你的名字：</text>
+        <input class="biaobai_wrap_item_input" type="text" @input="onYourNameInput" value="{{yourname}}" maxlength="4" placeholder="请输入" />
+      </view>
+      <view class="biaobai_container">
+        <view>
+          <view style="font-size:20px;">表白内容：</view>
+        </view>
+        <!-- 表白头部 -->
+        <view class="biaobai_header">
+          <checkbox-group>
+            <checkbox value="{{biaobaiHeaderChecked}}" checked="{{biaobaiHeaderChecked}}" disabled="true" />
+          </checkbox-group>
+          <input class="checked_box_item_input" type="text" value="{{biaobaiHeader}}" @input="biaobaiHeaderChange" />
+        </view>
+        <!-- 表白内容 -->
+        <view class="biaobai_wrap_item">
+          <view class="checked_box_item " wx:for="{{biaobaiList}}" wx:key="*this">
+            <view style="display:flex;align-items:center;width:100%;">
+              <checkbox-group @change="checkboxChange({{item}}, {{index}})">
+                <checkbox value="{{item.value}}" checked="{{item.checked}}" />
+              </checkbox-group>
+              <input class="checked_box_item_input" type="text" value="{{item.value}}" @input="contentChange({{item}}, {{index}})" />
+            </view>
+          </view>
+          <view class="">{{item.name}}</view>
+        </view>
+        <!-- 表白底部 -->
+        <view class="biaobai_footer">
+          <checkbox-group>
+            <checkbox value="{{biaobaiFooterChecked}}" checked="{{biaobaiFooterChecked}}" disabled="true" />
+          </checkbox-group>
+          <input class="checked_box_item_input" type="text" value="{{biaobaiFooter}}" @input="biaobaiFooterChange" />
+        </view>
+      </view>
+      <view class="generator_wrap">
+        <view class="generator_box">
+          <view wx:if="{{isShow}}">
+            <view class="seq_box">编号</view>
+            <view class="seq_no">{{seq_no}}</view>
+            <view>
+              <button type="default" size="mini" @tap="copySeqNoFn">复制编号</button>
+            </view>
+          </view>
+        </view>
+        <view>
+          <button type="primary" disabled="{{isEnabled}}" @tap="sendAsync" style="width:30%;">生成编号</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import base from '../../mixins/base'
+  import biaobaiList from '../../config/biaobaiList'
+  // import SwiperItem9 from '../components/swiperItem9'
+
+  export default class pageIndex extends wepy.page {
+    mixins = [base]
+    config = {
+      navigationBarTitleText: '首页',
+      navigationBarTextStyle: 'white',
+      navigationBarBackgroundColor: '#A48276',
+      enablePullDownRefresh: false
+    }
+    data = {
+      seq_no: '',
+      hersname: '',
+      yourname: '',
+      biaobaiHeaderChecked: true,
+      biaobaiFooterChecked: true,
+      biaobaiHeader: '赠送给',
+      biaobaiFooter: '做我的女朋友吧！',
+      biaobaiList: biaobaiList
+    }
+
+    computed = {
+      isShow() {
+        return this.seq_no ? true : false
+      },
+      isEnabled() {
+        return !(this.hersname.trim() && this.yourname.trim())
+      },
+      style_height() {
+        return '100vh'
+      }
+    }
+
+    onReady() {
+      // this.initPageData()
+    }
+
+    onUnload() {
+      this.audioCtx.stop()
+    }
+
+    onHide() {
+      this.pos = '-53px'
+      this.audioCtx.stop()
+    }
+
+    onLoad(options) {
+    }
+
+    methods = {
+      biaobaiHeaderChange (e) {
+        console.log(e)
+        this.biaobaiHeader = e.detail.value
+      },
+      biaobaiFooterChange (e) {
+        console.log(e)
+        this.biaobaiFooter = e.detail.value
+      },
+      onHersNameInput (e) {
+        this.hersname = e.detail.value
+      },
+      onYourNameInput (e) {
+        this.yourname = e.detail.value
+      },
+      contentChange (item, index, e) {
+        console.log(e)
+        console.log(item)
+        for (let i = 0; i < this.biaobaiList.length; i++) {
+          if (index === i) {
+            this.biaobaiList[i].value = e.detail.value
+          }
+        }
+        console.log(this.biaobaiList)
+      },
+      checkboxChange (item, index, e) {
+        console.log(e)
+        const biaobaiList = this.biaobaiList
+        const values = e.detail.value
+        for (let i = 0; i < this.biaobaiList.length; i++) {
+          if (index === i) {
+            this.biaobaiList[i].checked = e.detail.value.length > 0 ? true : false
+          }
+        }
+        console.log(this.biaobaiList)
+      },
+      // 拷贝序列号
+      copySeqNoFn() {
+        let _this = this
+        wx.setClipboardData({
+          data: '' + _this.seq_no,
+          success() {}
+        });
+      },
+      // 生成编号
+      async sendAsync () {
+        console.log(this.biaobaiList)
+        let _this = this
+        await wx.cloud.callFunction({
+          name: 'setLove',
+          data: {
+            hersname: this.hersname,
+            yourname: this.yourname,
+            biaobaiHeader: this.biaobaiHeader,
+            biaobaiFooter: this.biaobaiFooter,
+            biaobaiContent: this.biaobaiList
+          },
+          success: (res) => {
+            _this.seq_no = res.result.data.seqNo
+            _this.$apply()
+          },
+          fail(error) {
+            console.log(error)
+          },
+          complete() {}
+        })
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+.biaobai_wrap {
+  padding: 10px;
+}
+.biaobai_wrap_item_input {
+  background: #fff;
+  padding: 0 10px;
+}
+.biaobai_wrap_item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  flex-direction: column;
+}
+.biaobai_wrap_item_text {
+  width: 120px;
+}
+.checked_box_item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+  padding: 6px 0;
+}
+.biaobai_header {
+  border-bottom: 1px solid #ccc;
+  padding: 12px 0;
+  display: flex;
+}
+.biaobai_footer {
+  border-top: 1px solid #ccc;
+  padding: 12px 0;
+  display: flex;
+}
+.checked_box_item_input {
+  height: 100%;
+  width: 100%;
+}
+.generator_box {
+  text-align: center;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.checked_group {
+  flex-direction: column;
+}
+.biaobai_head {
+  display: flex;
+  padding: 12px 0;
+}
+.seq_no {
+  color: #e0aa10;
+  font-weight: 400;
+  font-size: 24px;
+}
+.biaobai_container {
+  margin-top: 20px;
+}
+</style>
