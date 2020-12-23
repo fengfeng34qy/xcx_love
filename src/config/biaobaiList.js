@@ -48,8 +48,8 @@ export default [
     value: '只要你愿意 我可以陪你去 任何你想去的地方',
     btnText: '修改'
   }, {
-    animated1: 'zoomIn',
-    animated2: 'flipInX',
+    animated1: 'flipInX',
+    animated2: 'zoomIn',
     checked: true,
     inputDisabled: true,
     url: '/images/item9.jpg',

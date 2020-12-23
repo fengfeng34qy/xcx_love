@@ -9,6 +9,9 @@ export default {
         flag || cb.apply(_this, args)
       }
       var A = flag && !t
+      if (!A && flag) {
+        wx.showToast({title: '防抖,你懂的', icon: 'none'})
+      }
       clearTimeout(t)
       t = setTimeout(C, ms)
       A && cb.apply(_this, args)

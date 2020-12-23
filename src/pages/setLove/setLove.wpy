@@ -51,18 +51,24 @@
           </view>
         </view>
         <view>
-          <button type="primary" disabled="{{isEnabled}}" @tap="sendAsync" style="width:30%;">生成编号</button>
+          <button type="primary" disabled="{{isEnabled}}" @tap="send" style="width:36%;">生成编号</button>
         </view>
       </view>
     </view>
+    <!-- 赞赏码 -->
+    <!-- <view class="flex" style="justify-content:center;">
+      <view style="width:50%;height:120px;">
+        <image class="zsmcode" src="../../images/zsm.jpg" show-menu-by-longpress="true" mode="aspectFit"/>
+      </view>
+    </view> -->
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
   import base from '../../mixins/base'
+  import Utils from '../../common/utils'
   import biaobaiList from '../../config/biaobaiList'
-  // import SwiperItem9 from '../components/swiperItem9'
 
   export default class pageIndex extends wepy.page {
     mixins = [base]
@@ -85,7 +91,7 @@
 
     computed = {
       isShow() {
-        return this.seq_no ? true : false
+        return this.seq_no
       },
       isEnabled() {
         return !(this.hersname.trim() && this.yourname.trim())
@@ -99,16 +105,34 @@
       // this.initPageData()
     }
 
-    onUnload() {
-      this.audioCtx.stop()
-    }
+    onUnload() {}
 
-    onHide() {
-      this.pos = '-53px'
-      this.audioCtx.stop()
-    }
+    onHide() {}
 
     onLoad(options) {
+    }
+
+    async sendAsync () {
+      console.log(this.biaobaiList)
+      let _this = this
+      await wx.cloud.callFunction({
+        name: 'setLove',
+        data: {
+          hersname: this.hersname,
+          yourname: this.yourname,
+          biaobaiHeader: this.biaobaiHeader,
+          biaobaiFooter: this.biaobaiFooter,
+          biaobaiContent: this.biaobaiList
+        },
+        success: (res) => {
+          _this.seq_no = res.result.data.seqNo
+          _this.$apply()
+        },
+        fail(error) {
+          console.log(error)
+        },
+        complete() {}
+      })
     }
 
     methods = {
@@ -138,8 +162,7 @@
       },
       checkboxChange (item, index, e) {
         console.log(e)
-        const biaobaiList = this.biaobaiList
-        const values = e.detail.value
+        // const values = e.detail.value
         for (let i = 0; i < this.biaobaiList.length; i++) {
           if (index === i) {
             this.biaobaiList[i].checked = e.detail.value.length > 0 ? true : false
@@ -147,16 +170,22 @@
         }
         console.log(this.biaobaiList)
       },
+      onSend() {
+        this.onTapSend()
+      },
       // 拷贝序列号
       copySeqNoFn() {
         let _this = this
         wx.setClipboardData({
-          data: '' + _this.seq_no,
+          data: String(_this.seq_no),
           success() {}
         });
       },
+      send: Utils.debounce(() => {
+        this.sendAsync()
+      }, 1500, true),
       // 生成编号
-      async sendAsync () {
+      async sendAsync2 () {
         console.log(this.biaobaiList)
         let _this = this
         await wx.cloud.callFunction({
@@ -189,6 +218,7 @@
 .biaobai_wrap_item_input {
   background: #fff;
   padding: 0 10px;
+  height: 36px;
 }
 .biaobai_wrap_item {
   display: flex;
@@ -233,6 +263,8 @@
 .biaobai_head {
   display: flex;
   padding: 12px 0;
+  height: 36px;
+  line-height: 36px;
 }
 .seq_no {
   color: #e0aa10;
@@ -241,5 +273,12 @@
 }
 .biaobai_container {
   margin-top: 20px;
+}
+.zsmcode {
+  width: 100%;
+  height: 100%;
+}
+.biaobai_wrap {
+  padding-bottom: 40px;
 }
 </style>

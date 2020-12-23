@@ -5,7 +5,7 @@
         <input class="input" type="number" @input="onInput" value="{{value}}" maxlength="4" placeholder="请输入编号" />
       </view>
       <view class="button-box">
-        <button type="primary" disabled="{{!isEnabled}}" @tap="fn">确定</button>
+        <button type="primary" disabled="{{!isEnabled}}" @tap="onSend">确定</button>
       </view>
     </view>
     <message></message>
@@ -51,41 +51,36 @@
       onInput(e) {
         this.value = e.detail.value
       },
-      fn() {
-        wepy.navigateTo({
-          url: `/pages/setLove/setLove`
+      onSend: Utils.debounce(function() {
+        if (this.value == '0') {
+          // 编号等于0，跳转设置页面
+          wepy.navigateTo({
+            url: `/pages/setLove/setLove`
+          })
+          return
+        }
+        wx.cloud.callFunction({
+          name: 'getLove',
+          data: {
+            seqNo: this.value
+          },
+          success: (res) => {
+            if (res.result.data.length > 0) {
+              let data = res.result.data
+              let result = JSON.stringify({data})
+              wepy.navigateTo({
+                url: `/pages/Home?result=${result}`
+              })
+            } else {
+              this.$invoke('message', 'warning', '编号不存在', 3000)
+            }
+          },
+          fail(error) {
+            this.$invoke('message', 'warning', JSON.stringify(error), 3000)
+          },
+          complete() {}
         })
-      },
-      onSend: Utils.debounce(() => {
-        wepy.navigateTo({
-          url: `/pages/setLove/setLove`
-        })
-        // wx.cloud.callFunction({
-        //   name: 'setLove',
-        //   data: {
-        //     hersname: 'sff',
-        //     yourname: 'sdd',
-        //     biaobaiHeader: '表白头部',
-        //     biaobaiFooter: '表白底部',
-        //     biaobaiContent: [
-        //       {
-        //         animated1: 'fadeInUpBig',
-        //         animated2: 'zoomInUp',
-        //         checked: true,
-        //         url: '/images/victory.jpg',
-        //         value: '你是一个特别好(pàng)的女生。',
-        //       }
-        //     ]
-        //   },
-        //   success(res) {
-        //     console.log(res)
-        //   },
-        //   fail(error) {
-        //     console.log(error)
-        //   },
-        //   complete() {}
-        // })
-      }, 3000, true),
+      }, 1500, true),
       // 发送通讯
       onSendAsync() {
         wepy.request({
@@ -115,39 +110,6 @@
           },
           fail: (error) => {
             this.$invoke('message', 'warning', JSON.stringify(error), 3000)
-            // if (typeof error === 'object') {
-            //   this.$invoke('message', 'warning', data.message, 3000)
-            // } else {
-            //   this.$invoke('message', 'warning', '网络异常！', 3000)
-            // }
-          }
-        })
-        return;
-        this.$post({
-          url: 'https://www.sunfengfeng.com/biaobaiDetail',
-          data: {
-            biaobai: {
-              seqNo: this.value
-            }
-          }
-        }, {
-          success: ({code, data}) => {
-            let result = JSON.stringify({data: data})
-            if (JSON.parse(result).data[0].biaobaiContent.length < 1) {
-              this.$invoke('message', 'warning', '编号失效！', 3000)
-              return;
-            }
-            wepy.navigateTo({
-              url: `/pages/Home?result=${result}`
-            })
-          },
-          fail: ({statusCode, data}) => {
-            console.log(statusCode, data)
-            if (data) {
-              this.$invoke('message', 'warning', data.message, 3000)
-            } else {
-              this.$invoke('message', 'warning', '网络异常！', 3000)
-            }
           }
         })
       }
