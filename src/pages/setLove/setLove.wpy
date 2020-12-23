@@ -3,11 +3,11 @@
     <view class="biaobai_wrap">
       <view class="biaobai_head">
         <text class="biaobai_wrap_item_text">需要表白的人：</text>
-        <input class="biaobai_wrap_item_input" type="text" @input="onHersNameInput" value="{{hersname}}" maxlength="4" placeholder="请输入" />
+        <input class="biaobai_wrap_item_input" type="text" @input="onHersNameInput" value="{{hersname}}" maxlength="7" placeholder="请输入" />
       </view>
       <view class="biaobai_head">
         <text class="biaobai_wrap_item_text">你的名字：</text>
-        <input class="biaobai_wrap_item_input" type="text" @input="onYourNameInput" value="{{yourname}}" maxlength="4" placeholder="请输入" />
+        <input class="biaobai_wrap_item_input" type="text" @input="onYourNameInput" value="{{yourname}}" maxlength="7" placeholder="请输入" />
       </view>
       <view class="biaobai_container">
         <view>
@@ -56,11 +56,11 @@
       </view>
     </view>
     <!-- 赞赏码 -->
-    <!-- <view class="flex" style="justify-content:center;">
-      <view style="width:50%;height:120px;">
+    <view wx:if="{{isShow}}" class="flex zsm_box" style="justify-content:center;">
+      <view style="width:50%;height:120px;" @tap="preview">
         <image class="zsmcode" src="../../images/zsm.jpg" show-menu-by-longpress="true" mode="aspectFit"/>
       </view>
-    </view> -->
+    </view>
   </view>
 </template>
 
@@ -183,7 +183,7 @@
       },
       send: Utils.debounce(() => {
         this.sendAsync()
-      }, 1500, true),
+      }, 3000, true),
       // 生成编号
       async sendAsync2 () {
         console.log(this.biaobaiList)
@@ -205,6 +205,12 @@
             console.log(error)
           },
           complete() {}
+        })
+      },
+      // 预览图盘
+      preview() {
+        wx.previewImage({
+          urls: ['cloud://xcx-love-8b3pc.7863-xcx-love-8b3pc-1304578936/zsm.jpg']
         })
       }
     }
@@ -280,5 +286,8 @@
 }
 .biaobai_wrap {
   padding-bottom: 40px;
+}
+.zsm_box {
+  margin-bottom: 50px;
 }
 </style>

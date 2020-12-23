@@ -80,9 +80,16 @@
           },
           complete() {}
         })
-      }, 1500, true),
+      }, 3000, true),
       // 发送通讯
       onSendAsync() {
+        if (this.value == '0') {
+          // 编号等于0，跳转设置页面
+          wepy.navigateTo({
+            url: `/pages/setLove/setLove`
+          })
+          return
+        }
         wepy.request({
           method: 'POST',
           url: 'https://www.sunfengfeng.com/biaobaiDetail',
