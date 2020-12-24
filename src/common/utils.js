@@ -16,5 +16,8 @@ export default {
       t = setTimeout(C, ms)
       A && cb.apply(_this, args)
     }
+  },
+  random(n, m) {
+    return parseInt(Math.random() * (m - n) + n)
   }
 }

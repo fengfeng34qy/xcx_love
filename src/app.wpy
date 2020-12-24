@@ -89,7 +89,7 @@ export default class extends wepy.app {
 @import "./styles/custom/index.less";
 @import "./styles/lib/animate.less";
 @import "./styles/reset.less";
-button[disabled][type="primary"] {
+.page-index button[disabled][type="primary"] {
   background: #ccc;
 }
 </style>

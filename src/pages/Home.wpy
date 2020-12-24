@@ -43,22 +43,13 @@
 <script>
   import wepy from 'wepy'
   import base from '../mixins/base'
-  import SwiperItem from '../components/swiperItem'
   import SwiperItem0 from '../components/swiperItem0'
-  import SwiperItem1 from '../components/swiperItem1'
-  import SwiperItem2 from '../components/swiperItem2'
-  import SwiperItem3 from '../components/swiperItem3'
-  import SwiperItem4 from '../components/swiperItem4'
-  import SwiperItem5 from '../components/swiperItem5'
-  import SwiperItem6 from '../components/swiperItem6'
-  import SwiperItem7 from '../components/swiperItem7'
   import SwiperItem8 from '../components/swiperItem8'
-  // import SwiperItem9 from '../components/swiperItem9'
 
   export default class pageIndex extends wepy.page {
     mixins = [base]
     config = {
-      navigationBarTitleText: '首页',
+      navigationBarTitleText: '世纪有缘',
       navigationBarTextStyle: 'white',
       navigationBarBackgroundColor: '#A48276',
       enablePullDownRefresh: false
@@ -154,15 +145,7 @@
     }
 
     components = {
-      SwiperItem,
       SwiperItem0,
-      SwiperItem1,
-      SwiperItem2,
-      SwiperItem3,
-      SwiperItem4,
-      SwiperItem5,
-      SwiperItem6,
-      SwiperItem7,
       SwiperItem8
     }
   }

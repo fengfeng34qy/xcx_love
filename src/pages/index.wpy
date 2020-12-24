@@ -1,12 +1,19 @@
 <template>
   <view class="page-index flex">
-    <view class="box">
-      <view class="input-box">
-        <input class="input" type="number" @input="onInput" value="{{value}}" maxlength="4" placeholder="请输入编号" />
+    <view class="page-content page-index-content">
+      <view style="width:80%;">
+        <view class="input-box">
+          <input class="input" type="number" @input="onInput" value="{{value}}" maxlength="4" placeholder="请输入编号" />
+        </view>
+        <view class="button-box">
+          <button type="primary" loading="{{isLoading}}" disabled="{{!isEnabled}}" @tap="onSend">确定</button>
+        </view>
       </view>
-      <view class="button-box">
-        <button type="primary" disabled="{{!isEnabled}}" @tap="onSend">确定</button>
-      </view>
+      <!-- <view class="motto-box">
+        <view>{{motto.content}}</view>
+        <view wx:if="{{motto.content}}"> - </view>
+        <view>{{motto.author}}</view>
+      </view> -->
     </view>
     <message></message>
   </view>
@@ -28,7 +35,20 @@
       enablePullDownRefresh: false
     }
     data = {
-      value: ''
+      isLoading: false, // 按钮loadding效果
+      value: '',
+      motto: {}
+    }
+
+    // 下拉刷新
+    onPullDownRefresh() {
+      this.onLoad()
+      // 延迟操作, 取消下拉动作
+      const timer = setTimeout(()=>{
+      // 终止下拉动作
+        wepy.stopPullDownRefresh()
+        clearTimeout(timer)
+      },2000)
     }
 
     computed = {
@@ -45,7 +65,25 @@
 
     onReady() {}
 
-    onLoad() {}
+    async onLoad() {
+      await wx.cloud.callFunction({
+        name: 'getMotto',
+        data: {},
+        success: (res) => {
+          console.log(res)
+          let data = res.result.data
+          let length = data.length
+          let random = Utils.random(0, length - 1)
+          console.log('sjs', random)
+          this.motto = res.result.data[random]
+          this.$apply()
+        },
+        fail: (error) => {
+          console.log(error)
+        },
+        complete: () => {}
+      })
+    }
 
     methods = {
       onInput(e) {
@@ -53,12 +91,14 @@
       },
       onSend: Utils.debounce(function() {
         if (this.value == '0') {
+          this.value = ''
           // 编号等于0，跳转设置页面
           wepy.navigateTo({
             url: `/pages/setLove/setLove`
           })
           return
         }
+        this.isLoading = true
         wx.cloud.callFunction({
           name: 'getLove',
           data: {
@@ -66,6 +106,7 @@
           },
           success: (res) => {
             if (res.result.data.length > 0) {
+              this.value = ''
               let data = res.result.data
               let result = JSON.stringify({data})
               wepy.navigateTo({
@@ -78,7 +119,10 @@
           fail(error) {
             this.$invoke('message', 'warning', JSON.stringify(error), 3000)
           },
-          complete() {}
+          complete: () => {
+            this.isLoading = false
+            this.$apply()
+          }
         })
       }, 3000, true),
       // 发送通讯
@@ -129,20 +173,34 @@
   height: 100vh;
   align-items: center;
   justify-content: center;
+  // background: url('https://7863-xcx-love-8b3pc-1304578936.tcb.qcloud.la/images/bg/xrk.jpg?sign=c83e38e63e5aa2c844edf37717ad25b0&t=1608803701') no-repeat;
+  background-size: 100%;
 }
-.box {
+.page-index-content {
+  width: 100%;
   height: 200px;
   align-items: center;
+  display: flex;
+  flex-direction: column;
 }
-.input {
+.input, .button {
   height: 45px;
   font-size: 22px;
   font-weight: 400;
   background: #fff;
   padding: 0 2rem;
   border-radius: 4rem;
+  // box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 40px rgba(0, 0, 0, 0.06) inset;
 }
 .button-box {
   margin-top: 2rem;
+}
+.motto-box {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: 50px;
+  flex-direction: column;
 }
 </style>
