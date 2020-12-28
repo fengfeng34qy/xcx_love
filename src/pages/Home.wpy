@@ -55,6 +55,7 @@
       enablePullDownRefresh: false
     }
     data = {
+      options: null,
       biaobaiHeader: '',
       biaobaiFooter: '',
       biaobaiList: [],
@@ -77,6 +78,16 @@
       }
     }
 
+    onShareAppMessage(e) {
+      let result = this.options.result
+      console.log(result)
+      return {
+        title: '世纪有缘',
+        desc: '',
+        path: `/pages/Home?result=${result}`
+      }
+    }
+
     onReady() {
       // this.initPageData()
     }
@@ -91,7 +102,10 @@
     }
 
     onLoad(options) {
+      this.options = options
       let data = JSON.parse(options.result)
+      console.log(this.options.result)
+      console.log(data)
       this.biaobaiHeader = data.data[0].biaobaiHeader
       this.biaobaiFooter = data.data[0].biaobaiFooter
       this.biaobaiList = data.data[0].biaobaiContent

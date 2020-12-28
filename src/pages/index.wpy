@@ -109,6 +109,7 @@
               this.value = ''
               let data = res.result.data
               let result = JSON.stringify({data})
+              console.log(result)
               wepy.navigateTo({
                 url: `/pages/Home?result=${result}`
               })
